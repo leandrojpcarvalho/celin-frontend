@@ -15,17 +15,27 @@ export default function Table({ data }: PropType) {
         }
     }, [data]);
 
-    const headers = Object.keys(data[0] ? data[0] : '');
+    const headers = () => {
+        const titles = Object.keys(data[0] ? data[0] : '');
+        return <Lines values={titles} isHead={true} />
+    };
 
+    const lines = () => {
+        return data.map((user) => <Lines key={user.id} values={Object.values(user)} />)
+    }
 
-    const table = () => (
-        <section className="table">
-            <Lines values={headers} isHead={true} />
-            {data.map((user) => <Lines key={user.id} values={Object.values(user)} />)}
-        </section>
-    )
-
+    const contentGenerator = () => {
+        if (data.length > 0) {
+            return (
+                <section className="content table">
+                    {headers()}
+                    {lines()}
+                </section>
+            )
+        }
+        return <div className="not-found">User not found</div>
+    }
     return (
-        isLoading ? 'Loading' : table()
+        isLoading ? 'Loading' : contentGenerator()
     );
 }

@@ -7,14 +7,23 @@ import SearchBar from '@/components/search';
 
 export default function MainView() {
     const [data, setData] = useState<ApiAllUsers[]>([]);
+    const [showedData, setShowedData] = useState<ApiAllUsers[]>([])
     const { getAllUsers, getAllQuery } = useFetchUser();
 
     useEffect(() => {
-        getAllUsers().then((data) => setData(data))
+        getAllUsers().then((data) => {
+            setData(data);
+            setShowedData(data);
+        })
     }, [])
 
-    const handleGetByName = (name: string) => {
-        getAllQuery('users', `name=${name}`).then((data) => setData(data))
+    const handleFilterByName = (name: string) => {
+        if(name !==''){
+            setShowedData(data
+                .filter((user) => user.name.toLowerCase().includes(name.toLowerCase())));
+        } else {
+            setShowedData(data);
+        }
     }
     return (
         <div className="container flex">
@@ -29,10 +38,10 @@ export default function MainView() {
             </section>
 
             <section className="rigth grid align-center">
-                <SearchBar title='Users' placeHolder='type a name or part to find all matches' search={handleGetByName}/>
+                <SearchBar title='Users' placeHolder='type a name or part to find all matches' search={handleFilterByName} />
                 <section className="display flex align-center padding">
-                    <div className="content flex align-center">
-                        <Table data={data} />
+                    <div className="flex align-center">
+                        <Table data={showedData} />
                     </div>
                 </section>
             </section>
