@@ -1,8 +1,10 @@
+import MainView from "./view/MainView";
 
 function App() {
+
   return (
-    <div className="" >
-      <h2>oi!</h2>
+    <div className="flex justify-center	align-content: center" >
+      <MainView />
     </div>
   )
 }
