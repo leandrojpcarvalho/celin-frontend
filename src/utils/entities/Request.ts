@@ -7,7 +7,7 @@ export default class RequestMaker {
         return new Request(Utils.internalApiAcess(endPoints, id, query), {
             method: method ? method : 'GET',
             headers,
-            body: data? JSON.parse(data): undefined,
+            body: data? JSON.stringify(data): undefined,
         });
     }
 

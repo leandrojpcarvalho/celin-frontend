@@ -1,14 +1,21 @@
-import Table from '@/components/Table';
 import '../index.css';
-import { useEffect, useState } from 'react';
-import { ApiAllUsers } from '@/utils/types';
+import { createContext, useEffect, useState } from 'react';
+import { ApiAllUsers, IUser, IUserCreation } from '@/utils/types';
 import useFetchUser from '@/utils/useFetchUser';
 import SearchBar from '@/components/search';
+import FormUser from './form';
+
+type FunctionContext = {
+    fetch: {
+        postRequestUsers: (data: IUserCreation) => Promise<IUser>
+    }
+}
+export const Funcitons = createContext<FunctionContext>({} as FunctionContext)
 
 export default function MainView() {
     const [data, setData] = useState<ApiAllUsers[]>([]);
     const [showedData, setShowedData] = useState<ApiAllUsers[]>([])
-    const { getAllUsers, getAllQuery } = useFetchUser();
+    const { getAllUsers, getAllQuery, postRequestUsers } = useFetchUser();
 
     useEffect(() => {
         getAllUsers().then((data) => {
@@ -18,7 +25,7 @@ export default function MainView() {
     }, [])
 
     const handleFilterByName = (name: string) => {
-        if(name !==''){
+        if (name !== '') {
             setShowedData(data
                 .filter((user) => user.name.toLowerCase().includes(name.toLowerCase())));
         } else {
@@ -26,25 +33,29 @@ export default function MainView() {
         }
     }
     return (
-        <div className="container flex">
-            <section className="left grid align-center">
-                <div className='brand padding'>
-                    <h3>Celin</h3>
-                </div>
-                <nav className='menu flex padding'>
-                    <p>Home</p>
-                    <p>Users</p>
-                </nav>
-            </section>
+        <div className="grid grid-template">
+            <div className='brand padding'>
+                <h3>Celin</h3>
+            </div>
 
-            <section className="rigth grid align-center">
-                <SearchBar title='Users' placeHolder='type a name or part to find all matches' search={handleFilterByName} />
+            <section className='search flex align-center padding'>
+                <div className="flex align-center">
+                    <SearchBar title='Users' placeHolder='type a name or part to find all matches' search={handleFilterByName} />
+                </div>
+            </section>
+            <nav className='nav column flex padding'>
+                <p>Home</p>
+                <p>Users</p>
+            </nav>
+            <Funcitons.Provider value={{ fetch: { postRequestUsers } }}>
                 <section className="display flex align-center padding">
                     <div className="flex align-center">
-                        <Table data={showedData} />
+                        <FormUser />
                     </div>
                 </section>
-            </section>
+            </Funcitons.Provider>
+
+            <section className='footer'> footer </section>
         </div>
     )
 }

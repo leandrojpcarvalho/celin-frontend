@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type PropType = {
     title: string;
@@ -10,7 +10,7 @@ type PropType = {
 export default function SearchBar({ title, placeHolder, search }: PropType) {
     const [inputValue, setInputValue] = useState('');
 
-    useEffect(()=> {
+    useEffect(() => {
         search(inputValue)
     }, [inputValue])
 
@@ -24,10 +24,10 @@ export default function SearchBar({ title, placeHolder, search }: PropType) {
     }
 
     return (
-        <section className='search flex align-center padding'>
+        <>
             <h3>{title}</h3>
             <input type="text" placeholder={placeHolder} onChange={handleOnChange} value={inputValue} />
             <button type='button' onClick={handleSetInput}>View All Users</button>
-        </section>
+        </>
     )
 }

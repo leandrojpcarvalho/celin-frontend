@@ -1,7 +1,9 @@
+import Configs from "../entities/Configs";
 
 export type EndPoints = 'users' | 'teachers' | 'classes' | 'coursees' | 'evaluation';
 export type Days = 'monday' | 'tuesday' | 'wendnesday' | 'thursday' | 'friday' | 'saturday';
 export type Methods = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type Roles = 'user' | 'teacher' | 'student';
 
 type ExcludeFields<T, R extends keyof T> = Omit<T, R>;
 type GetFields<T, R extends keyof T> = Pick<T, R>;
@@ -16,6 +18,7 @@ export interface IPhone {
     number: number;
     ddd: number;
     local: string;
+    getPhone: string;
 }
 
 export interface IAddress {
@@ -25,6 +28,7 @@ export interface IAddress {
     state: string,
     complement: string,
     number: number,
+    getValues: IAddress
 }
 
 
@@ -44,7 +48,10 @@ export interface ITeacher extends IUser {
 
 export interface IAddressDto extends ExcludeFields<IAddress, 'complement' | 'number'> { }
 
-export interface IUserCreation extends ExcludeFields<IUser, 'id' | 'accessLevel'> { };
+export interface IUserCreation extends ExcludeFields<IUser, 'id' | 'accessLevel' | 'phones' | 'address'> {
+    address: ExcludeFields<IAddress,'getValues'>,
+    phones: string[]
+ };
 
 // #endregion
 
