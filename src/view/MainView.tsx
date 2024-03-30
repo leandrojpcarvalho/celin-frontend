@@ -4,12 +4,15 @@ import { ApiAllUsers, IUser, IUserCreation } from '@/utils/types';
 import useFetchUser from '@/utils/useFetchUser';
 import SearchBar from '@/components/search';
 import FormUser from './form';
+import { Link, Outlet, RouterProvider } from 'react-router-dom';
+import router from '@/router';
 
 type FunctionContext = {
     fetch: {
         postRequestUsers: (data: IUserCreation) => Promise<IUser>
     }
 }
+
 export const Funcitons = createContext<FunctionContext>({} as FunctionContext)
 
 export default function MainView() {
@@ -44,13 +47,13 @@ export default function MainView() {
                 </div>
             </section>
             <nav className='nav column flex padding'>
-                <p>Home</p>
-                <p>Users</p>
+                <Link to={'/'}>Home</Link>
+                <Link to={'/users'}>Users</Link>
             </nav>
             <Funcitons.Provider value={{ fetch: { postRequestUsers } }}>
                 <section className="display flex align-center padding">
                     <div className="flex align-center">
-                        <FormUser />
+                        <Outlet />
                     </div>
                 </section>
             </Funcitons.Provider>

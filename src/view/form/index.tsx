@@ -11,6 +11,7 @@ import { Roles } from "@/utils/types";
 import { OnChangeMouse } from "@/utils/types/clicks";
 import { createContext, useContext, useState } from "react";
 import { Funcitons } from "../MainView";
+import { useNavigate } from "react-router-dom";
 
 type Initial = {
     [key: string]: boolean
@@ -25,7 +26,7 @@ export const ControlCheckBox = createContext({ inputs: initialState, fields: [] 
 
 export default function FormUser() {
     const { fetch } = useContext(Funcitons)
-
+    const navigate = useNavigate();
     const [inputs, setInputs] = useState(initialState)
     const [error, setError] = useState(false);
     const [name, setName] = useState('')
@@ -149,6 +150,11 @@ export default function FormUser() {
             console.log(error)
         }
     }
+
+    const handleClickCancel = () => {
+        if(window.confirm('Are you sure you want to cancel?')){
+            navigate('/users')  
+        }}
     return (
         <form className="form grid grid-form">
             <section className="data flex">
@@ -163,6 +169,7 @@ export default function FormUser() {
                 <CheckList />
             </ControlCheckBox.Provider>
             <button type='button' onClick={handleSubmit}>Send</button>
+            <button type="button" onClick={handleClickCancel}>Cancel</button>
         </form>
     );
 }
