@@ -10,9 +10,11 @@ type ContextOutlet = {
     postRequestUsers: (data: IUserCreation) => Promise<IUser>;
     handleFilterByName: (name: string) => void;
     getAllQuery: (endPoints: EndPoints, query: string) => Promise<any>;
+    handleRemoveFilter: () => void;
+    handleFilterByRole: (role: string) => void;
 }
 
-export default function Users () {
+export default function Users() {
     const [data, setData] = useState<ApiAllUsers[]>([]);
     const [showedData, setShowedData] = useState<ApiAllUsers[]>([])
     const { getAllUsers, getAllQuery, postRequestUsers } = useFetchUser();
@@ -32,11 +34,19 @@ export default function Users () {
             setShowedData(data);
         }
     }
-    return(
-        <div>
-            <h3>users</h3>
+
+    const handleRemoveFilter = () => {
+        setShowedData(data);
+    }
+
+    const handleFilterByRole = (role: string) => {
+        setShowedData(data.filter((user) => user.role === role))
+    }
+    return (
+        <div className="flex column align-center">
+            <h3>Users</h3>
             <div>
-                <Outlet context={{data, postRequestUsers, showedData, handleFilterByName, getAllQuery} satisfies ContextOutlet}/>
+                <Outlet context={{ data, postRequestUsers, showedData, handleFilterByName, getAllQuery, handleRemoveFilter, handleFilterByRole } satisfies ContextOutlet} />
             </div>
         </div>
     )

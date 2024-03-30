@@ -1,4 +1,4 @@
-import FormUser from "@/view/form";
+import Form from "@/view/form";
 import Home from "@/view/home";
 import MainView from "@/view/MainView";
 import Users from "@/view/users";
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
                     },
                     {
                         path: "/users/register",
-                        Component: FormUser
+                        Component: Form
                     }
 
                 ]

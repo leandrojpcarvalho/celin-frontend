@@ -27,7 +27,7 @@ export default abstract class AbastractUser {
     setName(name: string) {
         const regex = new RegExp("\\b\\w{2,25}\\s\\w{2,25}\\b");
         if(!regex.test(name)) {
-            throw new FieldException('the name is invalid the patterner need be name and lastname');
+            throw new FieldException('the name is invalid the patterner need be name and lastname', 'name');
         }
         this.name = name;
     }
@@ -42,7 +42,7 @@ export default abstract class AbastractUser {
         
         const regex = new RegExp("^[a-zA-Z0-9._%+-]{1,25}@[a-zA-Z0-9.-]{1,25}\.com$");
         if(!regex.test(email)) {
-            throw new FieldException('the email need follow a@a.com');
+            throw new FieldException('the email need follow a@a.com', 'email');
         }
         this.email = email;
     }
