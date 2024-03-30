@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
 
 type PropType = {
-    title: string;
+    title?: string;
     placeHolder?: string;
     search: (name: string) => void
+    button?: {
+        title: string;
+        onClick: () => void;
+    }
 }
 
 
-export default function SearchBar({ title, placeHolder, search }: PropType) {
+export default function SearchBar({ title, placeHolder, search, button }: PropType) {
     const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
@@ -20,14 +24,15 @@ export default function SearchBar({ title, placeHolder, search }: PropType) {
     }
 
     const handleSetInput = () => {
+        button?.onClick();
         setInputValue('');
     }
 
     return (
-        <>
+        <div>
             <h3>{title}</h3>
             <input type="text" placeholder={placeHolder} onChange={handleOnChange} value={inputValue} />
-            <button type='button' onClick={handleSetInput}>View All Users</button>
-        </>
+            {button && <button type='button' onClick={handleSetInput}>{button.title}</button>}
+        </div>
     )
 }

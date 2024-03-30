@@ -5,7 +5,7 @@ export type Days = 'monday' | 'tuesday' | 'wendnesday' | 'thursday' | 'friday' |
 export type Methods = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type Roles = 'user' | 'teacher' | 'student';
 
-type ExcludeFields<T, R extends keyof T> = Omit<T, R>;
+export type ExcludeFields<T, R extends keyof T> = Omit<T, R>;
 type GetFields<T, R extends keyof T> = Pick<T, R>;
 type Creation<T, R extends keyof T, P> = ExcludeFields<T, R> & Partial<P>
 
@@ -27,8 +27,8 @@ export interface IAddress {
     city: string,
     state: string,
     complement: string,
-    number: number,
-    getValues: IAddress
+    number: string,
+    getValues: ExcludeFields<IAddress, 'getValues'>
 }
 
 

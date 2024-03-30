@@ -183,3 +183,9 @@ form{
   gap: var(--gap);
   text-transform: capitalize;
 }
+
+.error {
+  &>input {
+    border-color: rgba(255, 0, 0, 0.219);
+  }
+}
